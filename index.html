@@ -1,444 +1,416 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fintrack — Student Finance Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css" />
 </head>
 
-<body>
-    <a href="#main" class="skip">Skip to content</a>
+<body data-theme="light">
 
-    <div class="shell">
+  <a href="#main" class="skip">Skip to content</a>
 
-        <!-- SIDEBAR -->
+  <div class="shell">
 
-        <aside class="sidebar">
-            <div class="brand">
-                <span class="brand-icon">◈</span>
-                <span class="brand-name">Fintrack</span>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-icon">◈</span>
+        <span class="brand-name">Fintrack</span>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <button class="nav-btn active" data-view="dashboard">
+          <span class="ni">⬡</span> Dashboard
+        </button>
+        <button class="nav-btn" data-view="records">
+          <span class="ni">≡</span> Records
+        </button>
+        <button class="nav-btn" data-view="analysis">
+          <span class="ni">◎</span> Analysis
+        </button>
+        <button class="nav-btn" data-view="add">
+          <span class="ni">＋</span> Add
+        </button>
+        <button class="nav-btn" data-view="settings">
+          <span class="ni">⚙</span> Settings
+        </button>
+        <button class="nav-btn" data-view="about">
+          <span class="ni">◉</span> About
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div id="rateStatus" class="rate-status"></div>
+        <p>Made by<br /><strong>Joseph N. Marube</strong><br />Live exchange rates</p>
+      </div>
+    </aside>
+
+    <main id="main" class="main">
+
+      <!-- ─── DASHBOARD ─── -->
+      <section id="dashboard" class="view active">
+        <div class="vhead">
+          <h1>Dashboard</h1>
+          <p>Your financial snapshot</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card" data-a="i">
+            <span class="stat-lbl">Total Records</span>
+            <strong class="stat-val" id="statCount">0</strong>
+          </div>
+          <div class="stat-card" data-a="e">
+            <span class="stat-lbl">Total Spend</span>
+            <strong class="stat-val" id="statTotal">—</strong>
+          </div>
+          <div class="stat-card" data-a="a">
+            <span class="stat-lbl">Top Category</span>
+            <strong class="stat-val" id="statTop">—</strong>
+          </div>
+          <div class="stat-card" data-a="r">
+            <span class="stat-lbl">Last 7 Days</span>
+            <strong class="stat-val" id="statLast7">—</strong>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <div class="chart-header">
+            <div id="carouselHeader" class="carousel-header-wrap">
+              <div class="carousel-title">
+                <h2>Monthly Spending</h2>
+              </div>
+            </div>
+            <div class="chart-controls">
+              <label class="ctrl-lbl">Chart Type
+                <select id="dashboardChartType" class="ctrl-select">
+                  <option value="bar">Bar — Budget vs Actual</option>
+                  <option value="line">Line — Daily Trend</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div id="capMessage" class="cap-msg" role="status" aria-live="polite"></div>
+          <div id="dashboardChartCarousel" class="chart-display" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- ─── RECORDS ─── -->
+      <section id="records" class="view">
+        <div class="vhead">
+          <h1>Transaction Records</h1>
+          <p>All logged expenses</p>
+        </div>
+
+        <div class="card toolbar-card">
+          <div class="toolbar-row">
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="searchInput" class="search-input" placeholder="Search description or category…"
+                aria-label="Search" />
             </div>
 
-            <nav aria-label="Main navigation">
-                <button class="nav-btn active" data-view="dashboard">
-                    <span class="ni">⬡</span> Dashboard
-                </button>
-                <button class="nav-btn" data-view="records">
-                    <span class="ni">≡</span> Records
-                </button>
-                <button class="nav-btn" data-view="analysis">
-                    <span class="ni">◎</span> Analysis
-                </button>
-                <button class="nav-btn" data-view="add">
-                    <span class="ni">＋</span> Add
-                </button>
-                <button class="nav-btn" data-view="settings">
-                    <span class="ni">⚙</span> Settings
-                </button>
-                <button class="nav-btn" data-view="about">
-                    <span class="ni">◉</span> About
-                </button>
-            </nav>
+            <label class="ctrl-lbl" style="flex-shrink:0">
+              Currency
+              <select id="currencySelectRecords" class="ctrl-select"></select>
+            </label>
 
-            <div class="sidebar-footer">
-                <div id="rateStatus" class="rate-status"></div>
-                <p>Powered by<br /><strong>Frankfurter API</strong><br />Live exchange rates</p>
+            <div class="action-wrap">
+              <button id="exportBtn" class="btn-outline">↑ Export JSON</button>
+              <label for="importFile" class="btn-outline" role="button" tabindex="0"
+                onkeydown="if(event.key==='Enter')this.click()">↓ Import JSON</label>
+              <input type="file" id="importFile" accept="application/json" style="display:none"
+                aria-label="Import JSON file" />
+              <span id="importStatus" role="status" aria-live="polite"></span>
             </div>
-        </aside>
+          </div>
 
-        <!-- MAIN -->
+          <div class="toolbar-row sort-row">
+            <span class="sort-label">Sort by:</span>
+            <select id="sortField" class="ctrl-select" aria-label="Sort field">
+              <option value="date">Date</option>
+              <option value="amount">Amount</option>
+              <option value="description">Description (A–Z)</option>
+              <option value="category">Category (A–Z)</option>
+            </select>
+            <button id="sortDir" class="btn-sort" data-dir="desc" aria-label="Toggle sort direction">↓ Desc</button>
+          </div>
+        </div>
 
-        <main id="main" class="main">
+        <div class="card table-card">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="recordsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-            <!-- ─── DASHBOARD ─── -->
-            <section id="dashboard" class="view active">
-                <div class="vhead">
-                    <h1>Dashboard</h1>
-                    <p>Your financial snapshot</p>
-                </div>
+      <!-- ─── ANALYSIS ─── -->
+      <section id="analysis" class="view">
+        <div class="vhead">
+          <h1>Spending Analysis</h1>
+          <p>Deep-dive into your spending patterns</p>
+        </div>
 
-                <div class="stats-grid">
-                    <div class="stat-card" data-a="i">
-                        <span class="stat-lbl">Total Records</span>
-                        <strong class="stat-val" id="statCount">0</strong>
-                    </div>
-                    <div class="stat-card" data-a="e">
-                        <span class="stat-lbl">Total Spend</span>
-                        <strong class="stat-val" id="statTotal">—</strong>
-                    </div>
-                    <div class="stat-card" data-a="a">
-                        <span class="stat-lbl">Top Category</span>
-                        <strong class="stat-val" id="statTop">—</strong>
-                    </div>
-                    <div class="stat-card" data-a="r">
-                        <span class="stat-lbl">Last 7 Days</span>
-                        <strong class="stat-val" id="statLast7">—</strong>
-                    </div>
-                </div>
+        <div class="stats-grid" style="margin-bottom:1.5rem">
+          <div class="stat-card" data-a="i">
+            <span class="stat-lbl">All-Time Total</span>
+            <strong class="stat-val" id="analysisTotal">—</strong>
+          </div>
+          <div class="stat-card" data-a="e">
+            <span class="stat-lbl">Avg per Transaction</span>
+            <strong class="stat-val" id="analysisAvg">—</strong>
+          </div>
+          <div class="stat-card" data-a="a">
+            <span class="stat-lbl">Last 30 Days</span>
+            <strong class="stat-val" id="analysisLast30">—</strong>
+          </div>
+          <div class="stat-card" data-a="r">
+            <span class="stat-lbl">Transactions</span>
+            <strong class="stat-val" id="analysisCount">0</strong>
+          </div>
+        </div>
 
-                <div class="card chart-card">
-                    <div class="chart-header">
-                        <div class="chart-header-left">
-                            <h2>Spending Analysis</h2>
-                            <div id="capMessage" class="cap-msg" role="status" aria-live="polite"></div>
-                        </div>
-                        <div class="chart-controls">
-                            <label class="ctrl-lbl">Period
-                                <select id="periodSelect" class="ctrl-select">
-                                    <option value="day">Day</option>
-                                    <option value="week">Week</option>
-                                    <option value="month" selected>Month</option>
-                                    <option value="year">Year</option>
-                                </select>
-                            </label>
-                            <label class="ctrl-lbl">Chart Type
-                                <select id="chartTypeSelect" class="ctrl-select">
-                                    <option value="bar">Bar — Budget vs Actual</option>
-                                    <option value="pie">Pie — Category Split</option>
-                                    <option value="line">Line — Trend Over Time</option>
-                                    <option value="donut">Donut — Category Share</option>
-                                    <option value="area">Area — Spend Trend</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div id="chartContainer" class="chart-display" aria-live="polite"></div>
-                </div>
-            </section>
+        <div class="card"
+          style="padding:.75rem 1.25rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+          <strong style="font-family:var(--font-d);font-size:.875rem;">View trend by:</strong>
+          <select id="analysisPeriod" class="ctrl-select">
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month" selected>Month</option>
+            <option value="year">Year</option>
+          </select>
+        </div>
 
-            <!-- ─── RECORDS ─── -->
-            <section id="records" class="view">
-                <div class="vhead">
-                    <h1>Transaction Records</h1>
-                    <p>All logged expenses</p>
-                </div>
+        <div class="analysis-grid">
 
-                <div class="card toolbar-card">
-                    <!-- ROW 1: Search + Currency -->
-                    <div class="toolbar-row">
-                        <div class="search-wrap">
-                            <span class="search-icon">🔍</span>
-                            <input type="text" id="searchInput" class="search-input"
-                                placeholder="Search description or category…" aria-label="Search" />
-                        </div>
+          <div class="card">
+            <h2 class="section-h2">Category Split</h2>
+            <div id="analysisPie" class="chart-display mini-chart"></div>
+          </div>
 
-                        <label class="ctrl-lbl" style="flex-shrink:0">
-                            Currency
-                            <select id="currencySelectRecords" class="ctrl-select"></select>
-                        </label>
+          <div class="card">
+            <h2 class="section-h2">Spending Trend</h2>
+            <div id="analysisLine" class="chart-display mini-chart"></div>
+          </div>
 
-                        <div class="action-wrap">
-                            <button id="exportBtn" class="btn-outline">↑ Export JSON</button>
-                            <label for="importFile" class="btn-outline" role="button" tabindex="0"
-                                onkeydown="if(event.key==='Enter')this.click()">↓ Import JSON</label>
-                            <input type="file" id="importFile" accept="application/json" style="display:none"
-                                aria-label="Import JSON file" />
-                            <span id="importStatus" role="status" aria-live="polite"></span>
-                        </div>
-                    </div>
+          <div class="card" style="grid-column:1/-1">
+            <h2 class="section-h2">Category Breakdown</h2>
+            <div id="analysisCatBars" style="margin-top:1rem"></div>
+          </div>
 
-                    <!-- ROW 2: Sort controls -->
-                    <div class="toolbar-row sort-row">
-                        <span class="sort-label">Sort by:</span>
-                        <select id="sortField" class="ctrl-select" aria-label="Sort field">
-                            <option value="date">Date</option>
-                            <option value="amount">Amount</option>
-                            <option value="description">Description (A–Z)</option>
-                            <option value="category">Category (A–Z)</option>
-                        </select>
-                        <button id="sortDir" class="btn-sort" data-dir="desc" aria-label="Toggle sort direction">↓
-                            Desc</button>
-                    </div>
-                </div>
+          <div class="card" style="grid-column:1/-1">
+            <h2 class="section-h2">Monthly Spend — Current Year</h2>
+            <div id="analysisMonthly" class="chart-display" style="min-height:260px"></div>
+          </div>
 
-                <div class="card table-card">
-                    <div class="table-scroll">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th><span class="sr-only">Actions</span></th>
-                                </tr>
-                            </thead>
-                            <tbody id="recordsBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
+        </div>
+      </section>
 
-            <!-- ─── ANALYSIS ─── -->
-            <section id="analysis" class="view">
-                <div class="vhead">
-                    <h1>Spending Analysis</h1>
-                    <p>Deep-dive into your spending patterns</p>
-                </div>
+      <!-- ─── ADD / EDIT ─── -->
+      <section id="add" class="view">
+        <div class="vhead">
+          <h1 id="formTitle">Add Transaction</h1>
+          <p>Log a new expense</p>
+        </div>
 
-                <!-- Summary row -->
-                <div class="stats-grid" style="margin-bottom:1.5rem">
-                    <div class="stat-card" data-a="i">
-                        <span class="stat-lbl">All-Time Total</span>
-                        <strong class="stat-val" id="analysisTotal">—</strong>
-                    </div>
-                    <div class="stat-card" data-a="e">
-                        <span class="stat-lbl">Avg per Transaction</span>
-                        <strong class="stat-val" id="analysisAvg">—</strong>
-                    </div>
-                    <div class="stat-card" data-a="a">
-                        <span class="stat-lbl">Last 30 Days</span>
-                        <strong class="stat-val" id="analysisLast30">—</strong>
-                    </div>
-                    <div class="stat-card" data-a="r">
-                        <span class="stat-lbl">Transactions</span>
-                        <strong class="stat-val" id="analysisCount">0</strong>
-                    </div>
-                </div>
+        <div class="card form-card">
+          <form id="transactionForm" novalidate>
 
-                <!-- Period selector for trend charts -->
-                <div class="card"
-                    style="padding:.75rem 1.25rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
-                    <strong style="font-family:var(--font-d);font-size:.875rem;">View trend by:</strong>
-                    <select id="analysisPeriod" class="ctrl-select">
-                        <option value="day">Day</option>
-                        <option value="week">Week</option>
-                        <option value="month" selected>Month</option>
-                        <option value="year">Year</option>
-                    </select>
-                </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" id="description" autocomplete="off" placeholder="e.g. Monthly Rent" required />
+              <span class="field-err" id="descError" role="alert"></span>
+            </div>
 
-                <div class="analysis-grid">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="amount">Amount <small>(in USD — converted for display)</small></label>
+                <input type="text" id="amount" inputmode="decimal" placeholder="0.00" required />
+                <span class="field-err" id="amountError" role="alert"></span>
+              </div>
+              <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" required />
+                <span class="field-err" id="dateError" role="alert"></span>
+              </div>
+            </div>
 
-                    <!-- Pie chart -->
-                    <div class="card">
-                        <h2 class="section-h2">Category Split</h2>
-                        <div id="analysisPie" class="chart-display mini-chart"></div>
-                    </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <input type="text" id="category" list="categoryList" autocomplete="off" placeholder="e.g. Food"
+                required />
+              <datalist id="categoryList">
+                <option value="Education" />
+                <option value="Housing" />
+                <option value="Food" />
+                <option value="Transport" />
+                <option value="Entertainment" />
+                <option value="Utilities" />
+                <option value="Health" />
+                <option value="Shopping" />
+                <option value="Travel" />
+                <option value="Other" />
+              </datalist>
+              <span class="field-err" id="categoryError" role="alert"></span>
+            </div>
 
-                    <!-- Line trend -->
-                    <div class="card">
-                        <h2 class="section-h2">Spending Trend</h2>
-                        <div id="analysisLine" class="chart-display mini-chart"></div>
-                    </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Save Transaction</button>
+              <button type="button" id="cancelEdit" class="btn-ghost" style="display:none">Cancel Edit</button>
+            </div>
 
-                    <!-- Category bars (full width) -->
-                    <div class="card" style="grid-column:1/-1">
-                        <h2 class="section-h2">Category Breakdown</h2>
-                        <div id="analysisCatBars" style="margin-top:1rem"></div>
-                    </div>
+          </form>
+        </div>
+      </section>
 
-                    <!-- Monthly bars (full width) -->
-                    <div class="card" style="grid-column:1/-1">
-                        <h2 class="section-h2">Monthly Spend — Current Year</h2>
-                        <div id="analysisMonthly" class="chart-display" style="min-height:180px"></div>
-                    </div>
+      <!-- ─── SETTINGS ─── -->
+      <section id="settings" class="view">
+        <div class="vhead">
+          <h1>Settings</h1>
+          <p>Preferences, appearance &amp; data</p>
+        </div>
 
-                </div>
-            </section>
+        <div class="settings-grid">
 
-            <!-- ─── ADD / EDIT ─── -->
-            <section id="add" class="view">
-                <div class="vhead">
-                    <h1 id="formTitle">Add Transaction</h1>
-                    <p>Log a new expense</p>
-                </div>
+          <div class="card settings-card">
+            <h2 class="settings-h2">Currency &amp; Budget</h2>
 
-                <div class="card form-card">
-                    <form id="transactionForm" novalidate>
+            <div class="setting-row">
+              <label for="currencySelectSettings">Default Currency</label>
+              <select id="currencySelectSettings" class="ctrl-select"></select>
+            </div>
 
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text" id="description" autocomplete="off" placeholder="e.g. Monthly Rent"
-                                required />
-                            <span class="field-err" id="descError" role="alert"></span>
-                        </div>
+            <div class="setting-row">
+              <label for="capInput">
+                Monthly Budget Cap
+                <small class="muted">(shown in your selected currency)</small>
+              </label>
+              <input type="number" id="capInput" class="ctrl-input" placeholder="0.00" min="0" step="0.01" />
+            </div>
+          </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="amount">Amount <small>(in USD — converted for display)</small></label>
-                                <input type="text" id="amount" inputmode="decimal" placeholder="0.00" required />
-                                <span class="field-err" id="amountError" role="alert"></span>
-                            </div>
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="date" id="date" required />
-                                <span class="field-err" id="dateError" role="alert"></span>
-                            </div>
-                        </div>
+          <div class="card settings-card">
+            <h2 class="settings-h2">Display &amp; Theme</h2>
 
-                        <div class="form-group">
-                            <label for="category">Category</label>
-                            <input type="text" id="category" list="categoryList" autocomplete="off"
-                                placeholder="e.g. Food" required />
-                            <datalist id="categoryList">
-                                <option value="Education" />
-                                <option value="Housing" />
-                                <option value="Food" />
-                                <option value="Transport" />
-                                <option value="Entertainment" />
-                                <option value="Utilities" />
-                                <option value="Health" />
-                                <option value="Shopping" />
-                                <option value="Travel" />
-                                <option value="Other" />
-                            </datalist>
-                            <span class="field-err" id="categoryError" role="alert"></span>
-                        </div>
+            <div class="setting-row">
+              <label for="themeToggle">Theme</label>
+              <select id="themeToggle" class="ctrl-select">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+            </div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Save Transaction</button>
-                            <button type="button" id="cancelEdit" class="btn-ghost" style="display:none">Cancel
-                                Edit</button>
-                        </div>
+            <div class="setting-row">
+              <label for="accentSelect">Accent Colour</label>
+              <select id="accentSelect" class="ctrl-select">
+                <option value="indigo">Indigo</option>
+                <option value="emerald">Emerald</option>
+                <option value="rose">Rose</option>
+                <option value="amber">Amber</option>
+                <option value="violet">Violet</option>
+                <option value="cyan">Cyan</option>
+              </select>
+            </div>
 
-                    </form>
-                </div>
-            </section>
+            <div class="setting-row">
+              <label for="fontSizeSelect">Text Size</label>
+              <select id="fontSizeSelect" class="ctrl-select">
+                <option value="small">Small</option>
+                <option value="medium" selected>Medium</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+          </div>
 
-            <!-- ─── SETTINGS ─── -->
-            <section id="settings" class="view">
-                <div class="vhead">
-                    <h1>Settings</h1>
-                    <p>Preferences, appearance &amp; data</p>
-                </div>
+          <div class="card settings-card" style="grid-column:1/-1">
+            <h2 class="settings-h2">Category Budgets</h2>
+            <p class="muted" style="margin-bottom:1rem;font-size:.85rem">
+              Set a budget per category (in your selected currency). Used in the Budget vs Actual chart.
+            </p>
+            <div class="table-scroll">
+              <table class="budget-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Budget</th>
+                    <th>Currency</th>
+                  </tr>
+                </thead>
+                <tbody id="budgetTable"></tbody>
+              </table>
+            </div>
+            <p id="capSumDisplay" class="text-muted" style="margin-top:.75rem;font-weight:600"></p>
+          </div>
 
-                <div class="settings-grid">
+          <div class="card settings-card">
+            <h2 class="settings-h2">Data Info</h2>
+            <div class="data-stats">
+              <div class="data-row">
+                <span>Transactions stored</span>
+                <strong id="settingsTxnCount">—</strong>
+              </div>
+              <div class="data-row">
+                <span>Total value (all time)</span>
+                <strong id="settingsTotal">—</strong>
+              </div>
+              <div class="data-row">
+                <span>Storage</span>
+                <strong>localStorage</strong>
+              </div>
+            </div>
+            <button id="clearDataBtn" class="btn-danger" style="margin-top:1.25rem">
+              🗑 Clear All Data
+            </button>
+          </div>
 
-                    <!-- Preferences -->
-                    <div class="card settings-card">
-                        <h2 class="settings-h2">Currency &amp; Budget</h2>
+        </div>
+      </section>
 
-                        <div class="setting-row">
-                            <label for="currencySelectSettings">Default Currency</label>
-                            <select id="currencySelectSettings" class="ctrl-select"></select>
-                        </div>
+      <!-- ─── ABOUT ─── -->
+      <section id="about" class="view">
+        <div class="vhead">
+          <h1>About</h1>
+          <p>Student Finance Tracker</p>
+        </div>
+        <div class="card about-card">
+          <p class="about-desc">
+            A finance tracker built for students — track tuition, rent, food and daily expenses
+            with live multi-currency support, rich charts, and offline-capable local storage.
+          </p>
+          <hr class="divider" />
+          <div class="about-meta">
+            <div><strong>Developer</strong><span>Joseph Marube</span></div>
+            <div><strong>GitHub</strong><a href="#">github.com/josephmarube</a></div>
+            <div><strong>Email</strong><a href="#">j.marube@alustudent.com</a></div>
+          </div>
+          <hr class="divider" />
+          <p class="about-tech">
+            Vanilla JS ES Modules · CSS Custom Properties · 
+          </p>
+        </div>
+      </section>
 
-                        <div class="setting-row">
-                            <label for="capInput">
-                                Monthly Budget Cap
-                                <small class="muted">(shown in your selected currency)</small>
-                            </label>
-                            <input type="number" id="capInput" class="ctrl-input" placeholder="0.00" min="0"
-                                step="0.01" />
-                        </div>
-                    </div>
+    </main>
+  </div>
 
-                    <!-- Appearance -->
-                    <div class="card settings-card">
-                        <h2 class="settings-h2">Display &amp; Theme</h2>
-
-                        <div class="setting-row">
-                            <label for="themeToggle">Theme</label>
-                            <select id="themeToggle" class="ctrl-select">
-                                <option value="light">Light</option>
-                                <option value="dark">Dark</option>
-                            </select>
-                        </div>
-
-                        <div class="setting-row">
-                            <label for="accentSelect">Accent Colour</label>
-                            <select id="accentSelect" class="ctrl-select">
-                                <option value="indigo">Indigo</option>
-                                <option value="emerald">Emerald</option>
-                                <option value="rose">Rose</option>
-                                <option value="amber">Amber</option>
-                                <option value="violet">Violet</option>
-                                <option value="cyan">Cyan</option>
-                            </select>
-                        </div>
-
-                        <div class="setting-row">
-                            <label for="fontSizeSelect">Text Size</label>
-                            <select id="fontSizeSelect" class="ctrl-select">
-                                <option value="small">Small</option>
-                                <option value="medium" selected>Medium</option>
-                                <option value="large">Large</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Category Budgets -->
-                    <div class="card settings-card" style="grid-column:1/-1">
-                        <h2 class="settings-h2">Category Budgets</h2>
-                        <p class="muted" style="margin-bottom:1rem;font-size:.85rem">
-                            Set a budget per category (in your selected currency). Used in the Budget vs Actual chart.
-                        </p>
-                        <div class="table-scroll">
-                            <table class="budget-table">
-                                <thead>
-                                    <tr>
-                                        <th>Category</th>
-                                        <th>Budget</th>
-                                        <th>Currency</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="budgetTable"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Data -->
-                    <div class="card settings-card">
-                        <h2 class="settings-h2">Data Info</h2>
-                        <div class="data-stats">
-                            <div class="data-row">
-                                <span>Transactions stored</span>
-                                <strong id="settingsTxnCount">—</strong>
-                            </div>
-                            <div class="data-row">
-                                <span>Total value (all time)</span>
-                                <strong id="settingsTotal">—</strong>
-                            </div>
-                            <div class="data-row">
-                                <span>Storage</span>
-                                <strong>localStorage</strong>
-                            </div>
-                        </div>
-                        <button id="clearDataBtn" class="btn-danger" style="margin-top:1.25rem">
-                            🗑 Clear All Data
-                        </button>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- ─── ABOUT ─── -->
-            <section id="about" class="view">
-                <div class="vhead">
-                    <h1>About</h1>
-                    <p>Student Finance Tracker</p>
-                </div>
-                <div class="card about-card">
-                    <p class="about-desc">
-                        A finance tracker built for students to: track tuition, rent, food and daily expenses
-                        with multi-currency support, rich charts, and offline-capable local storage.
-                    </p>
-                    <hr class="divider" />
-                    <div class="about-meta">
-                        <div><strong>Developer</strong><span>Joseph Marube</span></div>
-                        <div><strong>GitHub</strong><a href="#">github.com/josephmarube</a></div>
-                        <div><strong>Email</strong><a href="#">j.marube@alustudent.com</a></div>
-                    </div>
-                    <hr class="divider" />
-                    <p class="about-tech">
-                        Vanilla JS ES Modules · CSS Custom Properties 
-                    </p>
-                </div>
-            </section>
-
-
-        </main>
-
-
-
-
-
-    </div>
-
-
-
+  <script type="module" src="scripts/app.js"></script>
 </body>
 
 </html>
