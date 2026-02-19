@@ -3,7 +3,7 @@ import { loadAll, saveAll } from "./storage.js";
 import { validateAll } from "./validators.js";
 import { compileRegex, highlight } from "./search.js";
 import { calculateStats, groupTransactions, groupTransactionsAllTime, getMonthlySpendLast6Months } from "./stats.js";
-import { convert, toBase, formatAmount, getLiveRates, CURRENCY_META } from "./currency.js";
+import { convert, toBase, formatAmount, CURRENCY_META } from "./currency.js";
 import { sortData } from "./ui.js";
 import { validateImport } from "./importExport.js";
 
@@ -51,17 +51,6 @@ async function init() {
   updateSortDirBtn();
 
   syncAllCurrencySelects();
-
-  const rateStatus = $("rateStatus");
-  if (rateStatus) rateStatus.textContent = "⏳ Fetching live rates…";
-
-  const ok = await getLiveRates(state);
-
-  if (rateStatus) {
-    rateStatus.textContent = ok ? "✅ Live rates loaded" : "⚠️ Using offline rates";
-    rateStatus.className   = ok ? "rate-ok" : "rate-warn";
-    setTimeout(() => { if (rateStatus) rateStatus.textContent = ""; }, 3500);
-  }
 
   if (state.cap && capInput) {
     capInput.value = convert(state.cap, state).toFixed(2);
@@ -549,6 +538,20 @@ function updateSettingsPanel() {
   if ($("capSumDisplay")) {
     $("capSumDisplay").textContent = `Monthly Cap: ${formatAmount(state.cap, state)}`;
   }
+
+const ratesTbl = $("ratesTableBody");
+if (ratesTbl) {
+  ratesTbl.innerHTML = Object.entries(state.currency.rates).map(([code, rate]) => `
+    <tr>
+      <td><strong>${code}</strong></td>
+      <td>
+        <input class="rate-input" type="number" step="0.0001" min="0"
+          data-code="${code}" value="${rate}" ${code === 'USD' ? 'disabled' : ''}
+          aria-label="Rate for ${code}"/>
+      </td>
+      <td class="muted">${code === 'USD' ? '(Base)' : ''}</td>
+    </tr>`).join("");
+}
 }
 
 /*EVENTS*/
@@ -745,5 +748,20 @@ document.querySelector("nav")?.addEventListener("click", e => {
   const view = e.target.closest(".nav-btn")?.dataset.view;
   if (view) navigateTo(view);
 });
+
+$("ratesTableBody")?.addEventListener("change", e => {
+  const input = e.target.closest(".rate-input");
+  if (!input) return;
+  
+  const code = input.dataset.code;
+  const val  = parseFloat(input.value);
+  
+  if (!isNaN(val) && val > 0) {
+    state.currency.rates[code] = val;
+    saveAll(state); // Saves the manual rate to localStorage
+    render();       // Re-renders the dashboard and records with the new math
+  }
+});
+
 
 init();

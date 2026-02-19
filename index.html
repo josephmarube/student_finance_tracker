@@ -380,6 +380,26 @@
             </button>
           </div>
 
+          <div class="card settings-card" style="grid-column:1/-1">
+            <h2 class="settings-h2">Exchange Rates (1 USD = ?)</h2>
+            <p class="muted" style="margin-bottom:1rem;font-size:.85rem">
+              Manually set the exchange rate for each currency relative to 1 USD.
+            </p>
+            <div class="table-scroll">
+              <table class="budget-table">
+                <thead>
+                  <tr>
+                    <th>Currency</th>
+                    <th>Rate to 1 USD</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="ratesTableBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -402,9 +422,11 @@
           </div>
           <hr class="divider" />
           <p class="about-tech">
-            Vanilla JS ES Modules · CSS Custom Properties · 
+            Vanilla JS ES Modules · CSS Custom Properties ·
           </p>
         </div>
+
+
       </section>
 
     </main>
