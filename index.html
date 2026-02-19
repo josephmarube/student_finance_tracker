@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="#main" class="skip">Skip to content</a>
+
+    <div class="shell">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-icon">◈</span>
+                <span class="brand-name">Fintrack</span>
+            </div>
+
+            <nav aria-label="Main navigation">
+                <button class="nav-btn active" data-view="dashboard">
+                    <span class="ni">⬡</span> Dashboard
+                </button>
+                <button class="nav-btn" data-view="records">
+                    <span class="ni">≡</span> Records
+                </button>
+                <button class="nav-btn" data-view="analysis">
+                    <span class="ni">◎</span> Analysis
+                </button>
+                <button class="nav-btn" data-view="add">
+                    <span class="ni">＋</span> Add
+                </button>
+                <button class="nav-btn" data-view="settings">
+                    <span class="ni">⚙</span> Settings
+                </button>
+                <button class="nav-btn" data-view="about">
+                    <span class="ni">◉</span> About
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div id="rateStatus" class="rate-status"></div>
+                <p>Powered by<br /><strong>Frankfurter API</strong><br />Live exchange rates</p>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+
+        <main id="main" class="main">
+
+            <!-- ─── DASHBOARD ─── -->
+            <section id="dashboard" class="view active">
+                <div class="vhead">
+                    <h1>Dashboard</h1>
+                    <p>Your financial snapshot</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card" data-a="i">
+                        <span class="stat-lbl">Total Records</span>
+                        <strong class="stat-val" id="statCount">0</strong>
+                    </div>
+                    <div class="stat-card" data-a="e">
+                        <span class="stat-lbl">Total Spend</span>
+                        <strong class="stat-val" id="statTotal">—</strong>
+                    </div>
+                    <div class="stat-card" data-a="a">
+                        <span class="stat-lbl">Top Category</span>
+                        <strong class="stat-val" id="statTop">—</strong>
+                    </div>
+                    <div class="stat-card" data-a="r">
+                        <span class="stat-lbl">Last 7 Days</span>
+                        <strong class="stat-val" id="statLast7">—</strong>
+                    </div>
+                </div>
+
+                <div class="card chart-card">
+                    <div class="chart-header">
+                        <div class="chart-header-left">
+                            <h2>Spending Analysis</h2>
+                            <div id="capMessage" class="cap-msg" role="status" aria-live="polite"></div>
+                        </div>
+                        <div class="chart-controls">
+                            <label class="ctrl-lbl">Period
+                                <select id="periodSelect" class="ctrl-select">
+                                    <option value="day">Day</option>
+                                    <option value="week">Week</option>
+                                    <option value="month" selected>Month</option>
+                                    <option value="year">Year</option>
+                                </select>
+                            </label>
+                            <label class="ctrl-lbl">Chart Type
+                                <select id="chartTypeSelect" class="ctrl-select">
+                                    <option value="bar">Bar — Budget vs Actual</option>
+                                    <option value="pie">Pie — Category Split</option>
+                                    <option value="line">Line — Trend Over Time</option>
+                                    <option value="donut">Donut — Category Share</option>
+                                    <option value="area">Area — Spend Trend</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="chartContainer" class="chart-display" aria-live="polite"></div>
+                </div>
+            </section>
+
+
+        </main>
+
+
+
+
+
+    </div>
+
+
+
+</body>
+
+</html>
