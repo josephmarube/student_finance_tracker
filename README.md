@@ -1,6 +1,6 @@
 # ◈ Fintrack — Student Finance Tracker
 
-**Live Demo:** []
+**Live Demo:** [https://www.youtube.com/watch?v=7fIBA52Turs]
 
 **Deployment:** [https://josephmarube.github.io/student_finance_tracker/]
 
