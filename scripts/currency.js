@@ -8,13 +8,7 @@ export const CURRENCY_META = {
   KES: { symbol: "KSh",  name: "Kenyan Shilling",     flag: "🇰🇪" },
   EUR: { symbol: "€",    name: "Euro",                flag: "🇪🇺" },
   GBP: { symbol: "£",    name: "British Pound",       flag: "🇬🇧" },
-  JPY: { symbol: "¥",    name: "Japanese Yen",        flag: "🇯🇵" },
-  CAD: { symbol: "C$",   name: "Canadian Dollar",     flag: "🇨🇦" },
-  AUD: { symbol: "A$",   name: "Australian Dollar",   flag: "🇦🇺" },
-  ZAR: { symbol: "R",    name: "South African Rand",  flag: "🇿🇦" },
-  NGN: { symbol: "₦",    name: "Nigerian Naira",      flag: "🇳🇬" },
-  UGX: { symbol: "USh",  name: "Ugandan Shilling",    flag: "🇺🇬" },
-  TZS: { symbol: "TSh",  name: "Tanzanian Shilling",  flag: "🇹🇿" },
+ 
 };
 
 /*
