@@ -1,8 +1,8 @@
 # ◈ Fintrack — Student Finance Tracker
 
-**Live Demo:** [https://josephmarube.github.io/student_finance_tracker/]
+**Live Demo:** []
 
-**Deployment:** Hosted via GitHub Pages
+**Deployment:** [https://josephmarube.github.io/student_finance_tracker/]
 
 **Fintrack** is a professional-grade, framework-free personal finance application designed for students. It balances powerful data management with an editorial-inspired design, allowing for full financial tracking across multiple currencies with zero external dependencies.
 
