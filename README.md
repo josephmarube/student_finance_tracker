@@ -1,4 +1,4 @@
-# ◈ Fintrack — Student Finance Tracker
+# ◈ Fintrack - Student Finance Tracker 
 
 **Live Demo:** [https://www.youtube.com/watch?v=7fIBA52Turs]
 
@@ -52,7 +52,7 @@ Fintrack is built to be usable by everyone, strictly following **WCAG 2.1 AA** s
 
 ---
 
-## Project Architecture
+## Project Architecture (main)
 
 The project is structured as a modular ES application to ensure maintainability:
 
