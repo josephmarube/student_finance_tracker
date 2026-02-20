@@ -22,15 +22,15 @@ export const state = {
     },
     // Category budgets stored in USD. Shown converted to current currency.
     categoryBudgets: {
-        Education: 1500,
-        Housing: 600,
-        Food: 200,
-        Transport: 80,
-        Entertainment: 60,
-        Utilities: 80,
-        Health: 80,
-        Shopping: 150,
-        Travel: 300,
-        Other: 100,
+        Education: 0,
+        Housing: 0,
+        Food: 0,
+        Transport: 0,
+        Entertainment: 0,
+        Utilities: 0,
+        Health: 0,
+        Shopping: 0,
+        Travel: 0,
+        Other: 0,
     }
 };
