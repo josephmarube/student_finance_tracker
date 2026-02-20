@@ -1,5 +1,3 @@
-/* FINTRACK — FINAL CSS with carousel, larger bars, curved lines */
-
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
 
 :root {
@@ -174,7 +172,7 @@ body {
   letter-spacing: -.02em; line-height:1.1;
 }
 
-/* ═══ ANIMATIONS ═══ */
+/* ANIMATIONS  */
 .chart-animate { height: 0; transition: height .8s cubic-bezier(.34,1.56,.64,1); }
 .chart-animate.animate-in { height: var(--final-h) !important; }
 
@@ -190,7 +188,7 @@ body {
 .line-dot { transform: scale(0); animation: popDot .3s calc(var(--i, 0) * .05s + .8s) cubic-bezier(.34,1.56,.64,1) forwards; }
 @keyframes popDot { to { transform: scale(1); } }
 
-/* ═══ CAROUSEL ═══ */
+/* CAROUSEL  */
 .carousel-header-wrap { flex: 1; }
 .carousel-title {
   display:     flex;
@@ -252,7 +250,7 @@ body {
 .mini-chart { min-height: 240px; }
 .chart-empty { color: var(--text-muted); font-size: .95rem; } /* BIGGER */
 
-/* ═══ LARGER BARS ═══ */
+/* LARGER BARS  */
 .bar-chart-wrap-large {
   display:         flex;
   align-items:     flex-end;
@@ -346,7 +344,7 @@ body {
 .cap-msg.ok  { background: rgba(5,150,105,.12);  color: var(--ok); }
 .cap-msg.bad { background: rgba(225,29,72,.12);  color: var(--danger); }
 
-/* ═══ ANALYSIS ═══ */
+/* ANALYSIS  */
 .analysis-grid {
   display:               grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -411,7 +409,7 @@ body {
   width: var(--final-w);
 }
 
-/* ═══ RECORDS ═══ */
+/* RECORDS  */
 .toolbar-card { padding: 1rem 1.25rem; margin-bottom: 1rem; }
 .toolbar-row  { display:flex; flex-wrap:wrap; gap:.65rem; align-items:center; }
 .sort-row     { margin-top: .6rem; padding-top: .65rem; border-top: 1px solid var(--border); }
@@ -490,7 +488,7 @@ mark {
 .budget-input:focus { border-color:var(--accent); outline:none; }
 .text-muted { color:var(--text-muted); font-size:.85rem; }
 
-/* ═══ BUTTONS ═══ */
+/* BUTTONS  */
 .btn-primary {
   padding:       .72rem 1.5rem; background:var(--accent);
   color:         #fff; border:none; border-radius:var(--r-sm);
@@ -558,7 +556,7 @@ mark {
 }
 .ctrl-select:focus, .ctrl-input:focus { border-color: var(--accent); }
 
-/* ═══ FORM ═══ */
+/* FORM  */
 .form-card { max-width: 580px; }
 .form-group {
   display:        flex; flex-direction:column; gap:.35rem;
@@ -586,7 +584,7 @@ form label small { text-transform:none; font-weight:400; letter-spacing:0; }
 .field-err { font-size:.78rem; font-weight:500; color:var(--danger); min-height:1em; }
 .form-actions { display:flex; gap:.75rem; margin-top:.5rem; }
 
-/* ═══ SETTINGS ═══ */
+/* SETTINGS  */
 .settings-grid {
   display:               grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -613,7 +611,47 @@ form label small { text-transform:none; font-weight:400; letter-spacing:0; }
 }
 .data-row strong { color:var(--text); font-weight:600; }
 
-/* ═══ ABOUT ═══ */
+/* styles/main.css */
+
+/* Specific styling for the manual exchange rate inputs */
+.rate-input {
+  width: 140px; /* Slightly wider to accommodate decimal precision */
+  padding: .5rem .75rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: .9rem;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.rate-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+  outline: none;
+}
+
+.rate-input:disabled {
+  background: var(--bg);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
+/* Ensure the rates table matches the budget table spacing */
+#ratesTableBody td {
+  padding: .75rem 1rem;
+  vertical-align: middle;
+}
+
+#ratesTableBody strong {
+  color: var(--heading);
+  font-family: var(--font-d);
+  letter-spacing: 0.02em;
+}
+
+/* ABOUT  */
 .about-card    { max-width:620px; }
 .about-desc    { font-size:.975rem; line-height:1.75; color:var(--text); }
 .divider       { border:none; border-top:1px solid var(--border); margin:1.5rem 0; }
@@ -624,7 +662,7 @@ form label small { text-transform:none; font-weight:400; letter-spacing:0; }
 .about-meta a:hover { text-decoration:underline; }
 .about-tech    { font-size:.78rem; color:var(--text-muted); }
 
-/* ═══ RESPONSIVE ═══ */
+/* RESPONSIVE  */
 @media (max-width: 800px) {
   .shell { flex-direction: column; }
   .sidebar {

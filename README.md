@@ -17,7 +17,7 @@
 * **Data Portability**: Features to export and import transaction data as JSON files for easy backups or transfers.
 * **Customizable UI**: Supports light and dark modes, adjustable accent colors, and multiple font sizes.
 
-## Technical Stack
+## Tech Stack
 
 * **HTML5 & CSS3**: Structured with semantic HTML and styled using CSS custom properties for theme management.
 * **JavaScript (ES Modules)**: Modular code structure using imports/exports for state management, statistics calculation, and UI rendering.

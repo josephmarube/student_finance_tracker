@@ -100,9 +100,9 @@ export function groupTransactions(data, period) {
   }, {});
 }
 
-/**
- * Group transactions for ANALYSIS section (all-time data).
- */
+/*
+Group transactions for ANALYSIS section (all-time data).
+*/
 export function groupTransactionsAllTime(data, period) {
   const groups = {};
 
@@ -140,9 +140,9 @@ function getISOWeek(date) {
   return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
 }
 
-/**
- * Compute summary statistics.
- */
+/*
+Compute summary statistics.
+*/
 export function calculateStats(data) {
   const total = data.reduce((s, t) => s + t.amount, 0);
 

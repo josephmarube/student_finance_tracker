@@ -7,13 +7,13 @@ import { convert, toBase, formatAmount, CURRENCY_META } from "./currency.js";
 import { sortData } from "./ui.js";
 import { validateImport } from "./importExport.js";
 
-/* ─── CHART PALETTE ─────────────────────────────────────────────────────── */
+/* CHART PALETTE ───────────*/
 const PALETTE = ["#6366f1","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#f97316","#84cc16","#ec4899","#14b8a6"];
 
-/* ─── DASHBOARD CAROUSEL STATE ──────────────────────────────────────────── */
+/* DASHBOARD CAROUSEL STATE */
 let dashboardCarouselIndex = 6; // default to current month (index 6 of 7 months)
 
-/* ─── DOM REFS ───────────────────────────────────────────────────────────── */
+/* DOM REFS ─────────────────*/
 const $ = id => document.getElementById(id);
 const recordsBody     = $("recordsBody");
 const searchInput     = $("searchInput");
@@ -36,7 +36,7 @@ function syncAllCurrencySelects() {
   });
 }
 
-/* ─── INITIALIZATION ─────────────────────────────────────────────────────── */
+/* INITIALIZATION ───────────*/
 async function init() {
   loadAll(state);
   ensureBudgetSync();
@@ -83,7 +83,7 @@ function render() {
   updateSettingsPanel();
 }
 
-/* ─── RECORDS ────────────────────────────────────────────────────────────── */
+/* RECORDS ──────────────────*/
 function renderRecords() {
   const re       = compileRegex(searchInput?.value || "");
   let   filtered = state.transactions.filter(t =>
@@ -119,7 +119,7 @@ function catColor(cat) {
   return PALETTE[Math.abs(hash) % PALETTE.length];
 }
 
-/* ─── DASHBOARD ──────────────────────────────────────────────────────────── */
+/* DASHBOARD ────────────────*/
 function renderDashboard() {
   const stats = calculateStats(state.transactions);
 
@@ -155,7 +155,7 @@ function updateCapDisplay() {
   }
 }
 
-/* ─── DASHBOARD CAROUSEL (7 months: last 6 + current) ───────────────────── */
+/* DASHBOARD CAROUSEL (7 months: last 6 + current) */
 function renderDashboardCarousel() {
   const months = getMonthlySpendLast6Months(state.transactions);
   const current = months[dashboardCarouselIndex];
@@ -196,7 +196,7 @@ function renderDashboardCarousel() {
   }
 }
 
-/* ─── BAR CHART (larger bars, min height 240px) ─────────────────────────── */
+/* BAR CHART (larger bars, min height 240px) */
 function renderBarChartLarge(stats, container) {
   const budgets    = state.categoryBudgets;
   const categories = [...new Set([...Object.keys(budgets), ...Object.keys(stats.categoryTotals)])];
@@ -248,7 +248,7 @@ function renderBarChartLarge(stats, container) {
   });
 }
 
-/* ─── LINE CHART WITH CURVES (Cardinal spline) ──────────────────────────── */
+/* LINE CHART WITH CURVES (Cardinal spline) */
 function renderLineChartCurved(monthData, container, monthKey) {
   if (!monthData.length) {
     container.innerHTML = `<p class="chart-empty">No data for this month.</p>`;
@@ -343,7 +343,7 @@ function cardinalSpline(points, tension, close) {
   return path;
 }
 
-/* ─── CAROUSEL NAV ───────────────────────────────────────────────────────── */
+/* CAROUSEL NAV ─────────────*/
 document.addEventListener("click", e => {
   if (e.target.id === "carouselPrev" && dashboardCarouselIndex > 0) {
     dashboardCarouselIndex--;
@@ -357,7 +357,7 @@ document.addEventListener("click", e => {
 
 $("dashboardChartType")?.addEventListener("change", renderDashboardCarousel);
 
-/* ─── ANALYSIS ───────────────────────────────────────────────────────────── */
+/* ANALYSIS ─────────────────*/
 function renderAnalysis() {
   const stats = calculateStats(state.transactions);
 
